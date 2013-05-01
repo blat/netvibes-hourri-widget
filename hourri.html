@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:widget="http://www.netvibes.com/ns/">
+    <head>
+        <title>Hourri \o/</title>
+        <meta name="author" content="Mickael BLATIERE" />
+        <link rel="icon" href="http://hourri.fr/favicon.gif" />
+        <link rel="stylesheet" type="text/css" href="http://uwa.netvibes.com/lib/c/UWA/assets/css/standalone.css" />
+        <script type="text/javascript" src="http://uwa.netvibes.com/lib/c/UWA/js/UWA_Standalone_Alone.js"></script>
+        <style>
+            #Hourri {
+                background: #fafafa;
+                font-family: Georgia;
+                padding: 10px;
+                text-align: center;
+            }
+            #Hourri .hourri {
+                font-size: 1.3em;
+                border: 3px solid #ddd;
+                padding: 10px;
+                background-color: #fff;
+                margin-bottom: 10px;
+            }
+            #Hourri .hourri:hover {
+                border-color: #ff50a0;
+                color: #000;
+                cursor: pointer;
+            }
+            #Hourri .hourri .ascii {
+                color: #444;
+                display: block;
+                font-family: "courier new";
+                font-size: 150%;
+                margin-bottom: 20px;
+                margin-top: 15px;
+            }
+            #Hourri .hourri .description {
+                color: #aaa;
+                display: block;
+                margin: 0;
+            }
+            #Hourri .footer {
+                color: #50a0ff;
+                text-decoration: none;
+                border: none;
+            }
+            #Hourri .footer:hover {
+                color: #ff50a0;
+            }
+        </style>
+        <script type="text/javascript">
+
+            var Hourri = { };
+
+            Hourri.init = function() {
+                var wrapper = widget.createElement('div', {'id': 'Hourri'});
+
+                var hourri =  widget.createElement('div', {'class': 'hourri'}).inject(wrapper);
+                hourri.addEvent('click', widget.onRefresh);
+
+                Hourri.ascii =  widget.createElement('span', {'class': 'ascii'}).inject(hourri);
+                Hourri.description =  widget.createElement('span', {'class': 'description'}).inject(hourri);
+
+                widget.createElement('a', {'href': 'http://hourri.fr', 'class': 'footer'}).inject(wrapper).innerHTML = 'Hourri.fr';
+
+                widget.setBody('');
+                wrapper.inject(widget.body);
+                widget.body.style.padding = "0px";
+
+                widget.onRefresh();
+            }
+
+            Hourri.display = function(xml) {
+                Hourri.ascii.innerHTML = xml.getElementsByTagName('ascii')[0].textContent;
+                Hourri.description.innerHTML = xml.getElementsByTagName('description')[0].textContent;
+            }
+
+            widget.onRefresh = function() {
+                UWA.Data.request('http://hourri.fr/random.php?v=' + Math.random(), {
+                    type: 'xml',
+                    onComplete: Hourri.display
+                });
+            }
+
+            widget.onLoad = function() {
+                Hourri.init();
+            }
+
+        </script>
+    </head>
+    <body>
+        <p>Loading...</p>
+    </body>
+</html>
