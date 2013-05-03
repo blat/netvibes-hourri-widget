@@ -71,7 +71,10 @@
             }
 
             Hourri.display = function(xml) {
-                Hourri.ascii.innerHTML = xml.getElementsByTagName('ascii')[0].textContent;
+                Hourri.ascii.innerHTML = xml.getElementsByTagName('ascii')[0].textContent
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;");
                 Hourri.description.innerHTML = xml.getElementsByTagName('description')[0].textContent;
             }
 
